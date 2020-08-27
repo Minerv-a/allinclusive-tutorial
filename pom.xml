@@ -50,8 +50,8 @@
         <env>local</env>
 
         <!-- Compile with Java 7, default is 5 -->
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <!-- Libs used in Unit and Integration tests -->
@@ -340,6 +340,13 @@
                             <version>${project.version}</version>
                         </moduleDependency>
 
+                        <!-- Tentativo di inclusione di un secondo modulo "platform" -->
+                        <moduleDependency>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>actions-platform-jar</artifactId>
+                            <version>${project.version}</version>
+                        </moduleDependency>
+
                         <!-- Bring in the integration tests -->
                         <moduleDependency>
                             <groupId>${project.groupId}</groupId>
@@ -489,6 +496,7 @@
         </pluginRepository>
     </pluginRepositories>
   <modules>
+  	<module>actions-platform-jar</module>
     <module>allinclusive-tutorial-platform-jar</module>
     <module>allinclusive-tutorial-share-jar</module>
     <module>integration-tests</module>
