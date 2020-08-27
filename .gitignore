@@ -1,0 +1,32 @@
+# Ignora i file generati
+target/
+
+# Ignora i file nascosti
+.*
+!.gitignore
+
+# Ignora eseguibili, WAR e JAR
+*.war
+*.jar
+*.ear
+*.class
+
+# Ignora i log
+*.log
+*.log.*
+
+# Ignora alf_data
+alf_data_dev/
+
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
+
