@@ -16,8 +16,16 @@
     <properties>
     </properties>
 
-    <dependencies>
-    </dependencies>
+	<dependencies>
+		<!-- NOTA: Questa dipendenza è comunque necessaria, sia che crei "actions-platform-jar" come 
+					progetto a sé stante sia che lo crei come modulo all'interno dello stesso progetto! -->
+		<dependency>
+			<groupId>com.someco</groupId>
+			<artifactId>allinclusive-tutorial-platform-jar</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 
     <build>
         <plugins>
