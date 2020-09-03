@@ -14,28 +14,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<!-- A simple class that is initialized by Spring -->
-	<bean id="com.sourcesense.Demo"
-		class="com.sourcesense.platformsample.Demo" init-method="init" />
-
-	<!-- A simple module component that will be executed once. Note. this module 
-		component will only be executed once, and then there will be an entry for 
-		it in the Repo DB. So doing for example $ mvn clean install alfresco:run 
-		twice will only execute this component the first time. You need to remove 
-		/alf_data_dev for it to be executed again. -->
-	<bean id="com.sourcesense.DemoComponent"
-		class="com.sourcesense.platformsample.DemoComponent"
-		parent="module.baseComponent">
-		<property name="moduleId" value="alfresco-platform-jar" />  <!-- See module.properties -->
-		<property name="name" value="DemoComponent" />
-		<property name="description"
-			value="A demonstration component" />
-		<property name="sinceVersion" value="1.0" />
-		<property name="appliesFromVersion" value="0.99" /> <!-- 1.0 would not work here when using SNAPSHOT version in project -->
-		<property name="nodeService" ref="NodeService" />
-		<property name="nodeLocatorService" ref="nodeLocatorService" />
-	</bean>
-
 
 	<!-- Action Executer class per l'azione di "move-replaced" -->
 	<bean id="move-replaced"
@@ -51,5 +29,16 @@
 			<ref bean="NodeService" />
 		</property>
 	</bean>
-	
+
+	<bean id="enable-web-flag"
+		class="com.someco.action.executer.EnableWebFlag" parent="set-web-flag">
+		<property name="publicAction" value="false" />
+	</bean>
+
+	<bean id="disable-web-flag"
+		class="com.someco.action.executer.DisableWebFlag"
+		parent="set-web-flag">
+		<property name="publicAction" value="false" />
+	</bean>
+
 </beans>
