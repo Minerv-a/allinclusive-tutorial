@@ -371,6 +371,12 @@
 							<version>${project.version}</version>
 						</moduleDependency>
 
+						<moduleDependency>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>jobs-platform-jar</artifactId>
+							<version>${project.version}</version>
+						</moduleDependency>
+
 						<!-- Bring in the integration tests -->
 						<moduleDependency>
 							<groupId>${project.groupId}</groupId>
@@ -538,6 +544,7 @@
 		<module>allinclusive-tutorial-platform-jar</module>
 		<module>actions-platform-jar</module>
 		<module>behavior-platform-jar</module>
+		<module>jobs-platform-jar</module>
 		<module>allinclusive-tutorial-share-jar</module>
 		<module>actions-share-jar</module>
 		<module>behavior-share-jar</module>

@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- Spring bean for the job executer -->
+	<bean id="com.someco.job.jobExecuter"
+		class="com.someco.job.executer.ScheduledJobExecuter">
+		<property name="serviceRegistry">
+			<ref bean="ServiceRegistry" />
+		</property>
+	</bean>
+
+	<!-- Spring bean for the job detail -->
+	<bean id="com.someco.job.jobDetail"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass">
+			<value>com.someco.job.detail.ScheduledJob</value>
+		</property>
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobExecuter"
+					value-ref="com.someco.job.jobExecuter" />
+				<entry key="jobLockService" value-ref="jobLockService" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Spring bean for the job trigger -->
+	<bean id="com.someco.job.jobTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="com.someco.job.jobDetail" />
+		<property name="cronExpression"
+			value="${com.someco.job.cronexpression}" />
+		<property name="startDelay"
+			value="${com.someco.job.cronstartdelay}" />
+	</bean>
+
+	<!-- The job trigger must be passed to the scheduler -->
+	<bean id="com.someco.job.schedulerAccessor"
+		class="org.alfresco.schedule.AlfrescoSchedulerAccessorBean">
+		<property name="scheduler" ref="schedulerFactory" />
+		<property name="triggers">
+			<list>
+				<ref bean="com.someco.job.jobTrigger" />
+			</list>
+		</property>
+		<property name="enabled" value="${com.someco.job.enabled}" />
+	</bean>
+
+
+	<!-- Nel caso di job implementato come azione del repository, dichiaro i 
+		seguenti bean... N.B. La parte che segue immagino potrebbe andare anche in 
+		service-context.xml, cfr la configurazione di actions-platform-jar. -->
+
+	<!-- Spring bean per l'esecutore dell'azione -->
+	<bean id="simple-action"
+		class="com.someco.action.executer.SimpleRepoActionExecuter"
+		parent="action-executer">
+		<property name="serviceRegistry">
+			<ref bean="ServiceRegistry" />
+		</property>
+	</bean>
+
+	<!-- Spring bean per definire una factory implementation che costruisca 
+		modelli adatti all'FTL -->
+	<bean id="templateActionModelFactory"
+		class="org.alfresco.repo.action.scheduled.FreeMarkerWithLuceneExtensionsModelFactory">
+		<property name="serviceRegistry">
+			<ref bean="ServiceRegistry" />
+		</property>
+	</bean>
+
+	<!-- Spring bean dell'azione template che fa riferimento al bean dell'azione 
+		sul repository e le passa i prm necessari -->
+	<bean id="com.someco.action.simpleTemplateActionDefinition"
+		class="org.alfresco.repo.action.scheduled.SimpleTemplateActionDefinition">
+		<property name="actionName">
+			<value>simple-action</value>
+		</property>
+		<property name="parameterTemplates">
+			<map>
+				<entry>
+					<key>
+						<value>simpleParam</value>
+					</key>
+					<value>Simple param value</value>
+				</entry>
+			</map>
+		</property>
+		<property name="templateActionModelFactory">
+			<ref bean="templateActionModelFactory" />
+		</property>
+		<property name="dictionaryService">
+			<ref bean="DictionaryService" />
+		</property>
+		<property name="actionService">
+			<ref bean="ActionService" />
+		</property>
+		<property name="templateService">
+			<ref bean="TemplateService" />
+		</property>
+	</bean>
+
+	<!-- Spring bean che definisce la query dei nodi e l'espressione cron per 
+		la schedulazione del job -->
+	<bean id="com.someco.job.repoaction.simpleRepoActionCronJob"
+		class="org.alfresco.repo.action.scheduled.CronScheduledQueryBasedTemplateActionDefinition">
+		<property name="transactionMode">
+			<value>UNTIL_FIRST_FAILURE</value>
+		</property>
+		<property name="compensatingActionMode">
+			<value>IGNORE</value>
+		</property>
+		<property name="searchService">
+			<ref bean="SearchService" />
+		</property>
+		<property name="templateService">
+			<ref bean="TemplateService" />
+		</property>
+		<property name="queryLanguage">
+			<value>lucene</value>
+		</property>
+		<property name="stores">
+			<list>
+				<value>workspace://SpacesStore</value>
+			</list>
+		</property>
+		<property name="queryTemplate">
+			<value>PATH:"/app:company_home/*"</value>
+		</property>
+		<property name="cronExpression">
+			<value>${com.someco.job.repoaction.cronexpression}
+			</value>
+		</property>
+		<property name="jobName">
+			<value>SimpleRepoActionJob</value>
+		</property>
+		<property name="jobGroup">
+			<value>AlfrescoTutorialsJobGroup</value>
+		</property>
+		<property name="triggerName">
+			<value>triggerSimpleRepoAction</value>
+		</property>
+		<property name="triggerGroup">
+			<value>AlfrescoTutorialsTriggers</value>
+		</property>
+		<property name="scheduler">
+			<ref bean="schedulerFactory" />
+		</property>
+		<property name="actionService">
+			<ref bean="ActionService" />
+		</property>
+		<property name="templateActionModelFactory">
+			<ref bean="templateActionModelFactory" />
+		</property>
+		<property name="templateActionDefinition">
+			<ref bean="com.someco.action.simpleTemplateActionDefinition" />
+		</property>
+		<property name="transactionService">
+			<ref bean="TransactionService" />
+		</property>
+		<property name="runAsUser">
+			<value>System</value>
+		</property>
+	</bean>
+
+	<!-- N.B. Il bean che segue implementa l'azione come un JavaScript lato 
+		server, usando il seguente tipo di "SimpleTemplateActionDefinition" -->
+	<!-- 
+	<bean id="runScriptAction"
+		class="org.alfresco.repo.action.scheduled.SimpleTemplateActionDefinition">
+		<property name="actionName">
+			<value>script</value>
+		</property>
+		<property name="parameterTemplates">
+			<map>
+				<entry>
+					<key>
+						<value>script-ref</value>
+					</key>
+					<value>\$\{selectSingleNode('workspace://SpacesStore', 'lucene',
+						'PATH:"/app:company_home/app:dictionary/app:scripts/cm:exampleScript.js"'
+						)\}</value>
+				</entry>
+			</map>
+		</property>
+		<property name="templateActionModelFactory">
+			<ref bean="templateActionModelFactory" />
+		</property>
+		<property name="dictionaryService">
+			<ref bean="DictionaryService" />
+		</property>
+		<property name="actionService">
+			<ref bean="ActionService" />
+		</property>
+		<property name="templateService">
+			<ref bean="TemplateService" />
+		</property>
+	</bean>
+	-->
+
+</beans>
