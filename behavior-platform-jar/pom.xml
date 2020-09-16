@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>behavior-platform-jar</artifactId>
-    <name>Alfresco Platform/Repository JAR Module - Behaviors</name>
-    <description>Platform/Repo JAR Module (to be included in the alfresco.war) - part of AIO - SDK 3
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>behavior-platform-jar</artifactId>
+	<name>Alfresco Platform/Repository JAR Module - Behaviors</name>
+	<description>Platform/Repo JAR Module (to be included in the alfresco.war) - part of AIO - SDK 3
     </description>
-    <packaging>jar</packaging>
+	<packaging>jar</packaging>
 
-    <parent>
-        <groupId>com.sourcesense</groupId>
-        <artifactId>allinclusive-tutorial</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>com.someco</groupId>
+		<artifactId>allinclusive-tutorial</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 
-    <properties>
-    </properties>
+	<properties>
+	</properties>
 
-    <dependencies>
-    </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>com.someco</groupId>
+			<artifactId>allinclusive-tutorial-platform-jar</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

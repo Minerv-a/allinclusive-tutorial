@@ -409,12 +409,14 @@
 			</plugin>
 
 			<!-- Compress JavaScript files and store as *-min.js -->
+			<!-- YUI COMPRESSOR NON SUPPORTA JS ECMA 6, USATO DAI BEHAVIOR (V. "IMPORT")
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>yuicompressor-maven-plugin</artifactId>
 				<version>1.5.1</version>
 				<executions>
-					<!-- Compress the JS files under the assembly folder -->
+				-->
+					<!-- Compress the JS files under the assembly folder
 					<execution>
 						<id>compress-assembly</id>
 						<goals>
@@ -436,7 +438,8 @@
 							<jswarn>false</jswarn>
 						</configuration>
 					</execution>
-					<!-- Compress the JS files under the resources folder -->
+					-->
+					<!-- Compress the JS files under the resources folder
 					<execution>
 						<id>compress-resources</id>
 						<goals>
@@ -457,6 +460,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
 
 			<!-- Hot reloading with JRebel -->
 			<plugin>
