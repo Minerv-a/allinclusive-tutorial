@@ -167,7 +167,7 @@
 		</property>
 	</bean>
 
-	<!-- N.B. Il bean che segue implementa l'azione come un JavaScript lato 
+	<!-- N.B. Il bean che segue implementa l'azione sotto forma di JavaScript lato 
 		server, usando il seguente tipo di "SimpleTemplateActionDefinition" -->
 	<!-- 
 	<bean id="runScriptAction"
