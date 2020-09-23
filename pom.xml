@@ -377,6 +377,18 @@
 							<version>${project.version}</version>
 						</moduleDependency>
 
+						<moduleDependency>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>webscripts-platform-jar</artifactId>
+							<version>${project.version}</version>
+						</moduleDependency>
+
+						<moduleDependency>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>workflow-platform-jar</artifactId>
+							<version>${project.version}</version>
+						</moduleDependency>
+
 						<!-- Bring in the integration tests -->
 						<moduleDependency>
 							<groupId>${project.groupId}</groupId>
@@ -407,6 +419,12 @@
 						<moduleDependency>
 							<groupId>${project.groupId}</groupId>
 							<artifactId>behavior-share-jar</artifactId>
+							<version>${project.version}</version>
+						</moduleDependency>
+
+						<moduleDependency>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>workflow-share-jar</artifactId>
 							<version>${project.version}</version>
 						</moduleDependency>
 
@@ -545,9 +563,12 @@
 		<module>actions-platform-jar</module>
 		<module>behavior-platform-jar</module>
 		<module>jobs-platform-jar</module>
+		<module>webscripts-platform-jar</module>
+		<module>workflow-platform-jar</module>
 		<module>allinclusive-tutorial-share-jar</module>
 		<module>actions-share-jar</module>
 		<module>behavior-share-jar</module>
+		<module>workflow-share-jar</module>
 		<module>allinclusive-tutorial-integration-tests</module>
 	</modules>
 </project>
