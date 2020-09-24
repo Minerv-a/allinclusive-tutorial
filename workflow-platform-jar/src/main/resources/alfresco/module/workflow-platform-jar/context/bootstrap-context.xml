@@ -25,6 +25,23 @@
 					<prop key="mimetype">text/xml</prop>
 					<prop key="redeploy">false</prop>
 				</props>
+				<props>
+					<prop key="engineId">activiti</prop>
+					<prop key="location">alfresco/module/${project.artifactId}/workflow/helloWorldUI.bpmn
+					</prop>
+					<prop key="mimetype">text/xml</prop>
+					<prop key="redeploy">false</prop>
+				</props>
+			</list>
+		</property>
+		<property name="models">
+			<list>
+				<value>alfresco/module/${project.artifactId}/model/scWorkflowModel.xml</value>
+			</list>
+		</property>
+		<property name="labels">
+			<list>
+				<value>alfresco.module.${project.artifactId}.messages.scWorkflow</value>
 			</list>
 		</property>
 	</bean>
