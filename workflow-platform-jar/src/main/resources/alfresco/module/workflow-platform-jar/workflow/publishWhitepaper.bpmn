@@ -71,11 +71,37 @@
 		</userTask>
 		<userTask id="usertask4" name="Approved Notification"
 			activiti:assignee="${initiator.properties.userName}"
-			activiti:formKey="scwf:activitiApprovedNotification"></userTask>
+			activiti:formKey="scwf:activitiApprovedNotification">
+			<extensionElements>
+				<activiti:taskListener event="create"
+					class="org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener">
+					<activiti:field name="script">
+						<activiti:string>
+                    var setWebFlagAction = actions.create("set-web-flag");
+                    setWebFlagAction.parameters["active"] = true;
+                    for (var i = 0; i &lt; bpm_package.children.length; i++) {
+                        logger.log("Approving node:" + bpm_package.children[i].nodeRef);
+                        setWebFlagAction.execute(bpm_package.children[i]);
+                    }
+                </activiti:string>
+					</activiti:field>
+				</activiti:taskListener>
+			</extensionElements>
+		</userTask>
+		
+		<boundaryEvent id="boundarytimer1" cancelActivity="true" attachedToRef="usertask5">
+			<timerEventDefinition>
+				<timeDuration>PT5M</timeDuration>
+			</timerEventDefinition>
+		</boundaryEvent>
+		<sequenceFlow id="toExpiredApprove" name="" sourceRef="boundarytimer1" targetRef="usertask4"></sequenceFlow>
+		
 		<userTask id="usertask5" name="Third Party Review"
 			activiti:assignee="${initiator.properties.userName}"
 			activiti:formKey="scwf:activitiThirdPartyReview">
 			<extensionElements>
+				<activiti:taskListener event="create"
+					class="com.someco.bpm.ExternalReviewNotification"></activiti:taskListener>
 				<activiti:taskListener event="complete"
 					class="org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener">
 					<activiti:field name="script">
@@ -131,21 +157,27 @@
 		<scriptTask id="scripttask1" name="Submit"
 			activiti:autoStoreVariables="false">
 			<extensionElements>
-				<activiti:field name="runAs">
-					<activiti:string><![CDATA[admin]]></activiti:string>
-				</activiti:field>
-				<activiti:field name="script">
-					<activiti:string><![CDATA[
+				<activiti:executionListener event="start"
+					class="org.alfresco.repo.workflow.activiti.listener.ScriptExecutionListener">
+					<activiti:field name="runAs">
+						<activiti:string><![CDATA[admin]]></activiti:string>
+					</activiti:field>
+					<activiti:field name="script">
+						<activiti:string><![CDATA[
+				logger.log('*** Submit - Prima del reset/inizializzazione di scwf_approveCount e scwf_tpApproved ***');
               execution.setVariable('scwf_approveCount', 0);
               execution.setVariable('scwf_tpApproved', false);
           ]]></activiti:string>
-				</activiti:field>
+					</activiti:field>
+				</activiti:executionListener>
 			</extensionElements>
 		</scriptTask>
 		<sequenceFlow id="flow20" sourceRef="startevent1"
 			targetRef="scripttask1"></sequenceFlow>
 		<sequenceFlow id="flow23" sourceRef="usertask3"
-			targetRef="scripttask1"></sequenceFlow>
+			targetRef="scripttask1">
+			<conditionExpression xsi:type="tFormalExpression"><![CDATA[${scwf_resubmit == true}]]></conditionExpression>
+		</sequenceFlow>
 		<sequenceFlow id="flow24" sourceRef="scripttask1"
 			targetRef="parallelgateway1"></sequenceFlow>
 	</process>

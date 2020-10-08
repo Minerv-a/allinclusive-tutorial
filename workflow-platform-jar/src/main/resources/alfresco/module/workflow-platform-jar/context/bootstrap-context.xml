@@ -7,35 +7,35 @@
 	<!-- The bootstrap-context.xml file is used for patch definitions, importers, 
 		workflow, and loading custom content models. -->
 
+    <bean id="webscript.com.someco.bpm.review.get" class="com.someco.scripts.GetReview" parent="webscript">
+        <property name="workflowService" ref="WorkflowService" />
+    </bean>
+
 	<bean id="${project.artifactId}.workflowBootstrap"
 		parent="workflowDeployer">
 		<property name="workflowDefinitions">
 			<list>
 				<props>
 					<prop key="engineId">activiti</prop>
-					<prop key="location">alfresco/module/${project.artifactId}/workflow/helloWorld.bpmn
-					</prop>
+					<prop key="location">alfresco/module/${project.artifactId}/workflow/helloWorld.bpmn</prop>
 					<prop key="mimetype">text/xml</prop>
 					<prop key="redeploy">false</prop>
 				</props>
 				<props>
 					<prop key="engineId">activiti</prop>
-					<prop key="location">alfresco/module/${project.artifactId}/workflow/helloWorldFork.bpmn
-					</prop>
+					<prop key="location">alfresco/module/${project.artifactId}/workflow/helloWorldFork.bpmn</prop>
 					<prop key="mimetype">text/xml</prop>
 					<prop key="redeploy">false</prop>
 				</props>
 				<props>
 					<prop key="engineId">activiti</prop>
-					<prop key="location">alfresco/module/${project.artifactId}/workflow/helloWorldUI.bpmn
-					</prop>
+					<prop key="location">alfresco/module/${project.artifactId}/workflow/helloWorldUI.bpmn</prop>
 					<prop key="mimetype">text/xml</prop>
 					<prop key="redeploy">false</prop>
 				</props>
 				<props>
 					<prop key="engineId">activiti</prop>
-					<prop key="location">alfresco/module/${project.artifactId}/workflow/publishWhitepaper.bpmn
-					</prop>
+					<prop key="location">alfresco/module/${project.artifactId}/workflow/publishWhitepaper.bpmn</prop>
 					<prop key="mimetype">text/xml</prop>
 					<prop key="redeploy">false</prop>
 				</props>

@@ -36,6 +36,27 @@
 
 		<type name="scwf:submitReviewTask">
 			<parent>bpm:startTask</parent>
+			<properties>
+				<property name="scwf:tpApproved">
+					<type>d:boolean</type>
+					<mandatory>false</mandatory>
+					<multiple>false</multiple>
+					<default>false</default>
+				</property>
+				<property name="scwf:approveCount">
+					<type>d:int</type>
+					<mandatory>false</mandatory>
+					<multiple>false</multiple>
+					<default>0</default>
+				</property>
+				<property name="scwf:resubmit">
+					<type>d:boolean</type>
+					<mandatory>false</mandatory>
+					<multiple>false</multiple>
+					<default>false</default>
+				</property>
+			</properties>
+
 			<mandatory-aspects>
 				<aspect>scwf:thirdPartyReviewable</aspect>
 			</mandatory-aspects>
